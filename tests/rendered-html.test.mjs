@@ -58,3 +58,14 @@ test("serves machine-readable AI discovery and RSS endpoints", async () => {
   assert.match(rssResponse.headers.get("content-type") ?? "", /^application\/rss\+xml/i);
   assert.match(rss, /<rss version="2\.0">/);
 });
+
+test("serves a fast sitemap index that separates live source discovery",async()=>{
+  const response=await render("/sitemap.xml");
+  const xml=await response.text();
+  assert.equal(response.status,200);
+  assert.match(response.headers.get("content-type")??"",/^application\/xml/i);
+  assert.match(xml,/<sitemapindex/);
+  assert.match(xml,/\/sitemaps\/core\.xml/);
+  assert.match(xml,/\/sitemaps\/news\.xml/);
+  assert.match(xml,/\/sitemaps\/models\.xml/);
+});
