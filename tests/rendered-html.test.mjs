@@ -16,7 +16,7 @@ test("renders the guided landing page with crawlable metadata", async () => {
   assert.match(html, /<title>AXON\/\/RADAR — Live AI News, Models and Tools<\/title>/);
   assert.match(html, /rel="canonical" href="https:\/\/axonradar\.netlify\.app\/"/);
   assert.match(html, /Know what(?:<br\/>|<br>)matters in AI/);
-  assert.match(html, /href="\/news"[^>]*>News<\/a>.*href="\/models"[^>]*>Models<\/a>.*href="\/developers"[^>]*>Developers<\/a>.*href="\/creators"[^>]*>Creators<\/a>.*href="\/compare"[^>]*>Compare<\/a>/s);
+  assert.match(html, /href="\/news"[^>]*>News<\/a>.*href="\/models"[^>]*>Models<\/a>.*href="\/benchmarks"[^>]*>Benchmarks<\/a>.*href="\/developers"[^>]*>Developers<\/a>.*href="\/creators"[^>]*>Creators<\/a>.*href="\/compare"[^>]*>Compare<\/a>/s);
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/favicon\.ico\?v=2"/);
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/favicon\.svg\?v=2"/);
@@ -68,4 +68,9 @@ test("serves a fast sitemap index that separates live source discovery",async()=
   assert.match(xml,/\/sitemaps\/core\.xml/);
   assert.match(xml,/\/sitemaps\/news\.xml/);
   assert.match(xml,/\/sitemaps\/models\.xml/);
+});
+
+test("renders sourced benchmark intelligence and model evidence",async()=>{
+ const board=await render("/benchmarks"),html=await board.text();assert.equal(board.status,200);assert.match(html,/Measure the model/);assert.match(html,/Claude Opus 5/);assert.match(html,/"@type":"Dataset"/);
+ const detail=await render("/benchmarks/models/gpt-5-6-sol"),detailHtml=await detail.text();assert.equal(detail.status,200);assert.match(detailHtml,/GPT-5\.6 Sol Benchmarks, Scores and Evidence/);assert.match(detailHtml,/Coding Agent Index/);assert.match(detailHtml,/BreadcrumbList/);
 });
