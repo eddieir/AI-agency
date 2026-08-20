@@ -59,7 +59,7 @@ The original developer/creator tool matrix remains available at `/compare/tools`
 
 `/playground` is a live multi-model testing laboratory. It includes workflow presets, editable system and user prompts, reusable variable resolution, output and sampling controls, and an allowlisted set of frontier, open, and small models. One controlled request can run across two to four models, returning real outputs with measured latency, token usage, and cost. Users can mark the best answer and export its configuration as JavaScript, Python, or cURL.
 
-Inference runs server-side through Netlify AI Gateway. Visitors never provide or receive provider keys. The execution function validates origins, model IDs, prompt length, output limits, and request shape; applies a 45-second model timeout; disables caching; and enforces a per-IP/domain request limit. Running a test transmits the completed prompt to the selected providers, so the interface warns users not to submit secrets or personal data.
+Inference runs server-side through Netlify AI Gateway when gateway credentials are available. If the site gateway is inactive, the interface offers an explicit bring-your-own OpenRouter key mode: the key is held only in component memory for the current browser tab, sent only with the Run request, and is never persisted by the application. The execution function validates origins, model IDs, prompt length, output limits, request shape, and visitor-key format; applies a 45-second model timeout; disables caching; and enforces a per-IP/domain request limit. Running a test transmits the completed prompt to the selected providers, so the interface warns users not to submit secrets or personal data.
 
 ### Developer and creator directories
 
