@@ -1,6 +1,6 @@
-# AI Radar
+# AXON//RADAR
 
-AI Radar is a live AI intelligence platform that helps people understand what changed, inspect the models behind the change, select practical tools, and compare options before committing.
+AXON//RADAR is a live AI intelligence platform that helps people understand what changed, inspect the models behind the change, select practical tools, and compare options before committing.
 
 It brings together:
 
@@ -21,7 +21,7 @@ The product journey follows a real decision workflow:
 4. **Creators** — evaluate image, video, editing, design, and audio tools.
 5. **Compare** — compare audience, category, pricing, and best-fit use cases.
 
-Production URL: [ai-radar-hub.eddieir.chatgpt.site](https://ai-radar-hub.eddieir.chatgpt.site)
+Production URL: [axonradar.netlify.app](https://axonradar.netlify.app/)
 
 > The hosted Site may remain access-controlled until its public launch. Search engines cannot index an authenticated deployment.
 
@@ -87,7 +87,7 @@ SEO implementation makes the site understandable and crawlable; it does not guar
 
 ## Architecture
 
-AI Radar uses a page-oriented modular architecture:
+AXON//RADAR uses a page-oriented modular architecture:
 
 ```text
 app/
@@ -190,7 +190,7 @@ The build and install wrappers apply bounded execution and the environment expec
 
 ## Content and attribution
 
-AI Radar shows publisher-provided excerpts and links users to the original source for the complete article. It does not republish full third-party articles.
+AXON//RADAR shows publisher-provided excerpts and links users to the original source for the complete article. It does not republish full third-party articles.
 
 Pricing categories and capabilities can change. Confirm current limits and terms with each provider before making a purchasing or architecture decision.
 
@@ -215,4 +215,4 @@ Before enabling search indexing:
 
 ## Status
 
-AI Radar is under active development. Live data availability depends on upstream publishers and model registries.
+AXON//RADAR is under active development. Live data availability depends on upstream publishers and model registries.

@@ -1,6 +1,6 @@
-# AI Radar architecture
+# AXON//RADAR architecture
 
-AI Radar uses a page-oriented modular architecture. Each product area owns a route, while shared presentation and data modules stay independent.
+AXON//RADAR uses a page-oriented modular architecture. Each product area owns a route, while shared presentation and data modules stay independent.
 
 ## Route map
 
