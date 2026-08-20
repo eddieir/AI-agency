@@ -1,18 +1,16 @@
-type Category="Models"|"Developer"|"Creative"|"Industry";
+type Category="Frontier"|"Open source"|"Agents"|"Research"|"Creative"|"Business"|"Robotics"|"Policy";
 type Item={title:string;summary:string;source:string;url:string;publishedAt:string;category:Category};
 const feeds:{query:string;category:Category}[]=[
-  {query:"artificial intelligence model release when:7d",category:"Models"},
-  {query:"AI developer API coding agents when:7d",category:"Developer"},
-  {query:"AI photography video editing generative tools when:7d",category:"Creative"},
-  {query:"artificial intelligence industry when:7d",category:"Industry"},
+ {query:'("AI model" OR "foundation model") (OpenAI OR Anthropic OR Google OR Meta OR Mistral OR DeepSeek) when:14d',category:"Frontier"},
+ {query:'("open source AI" OR "open weights" OR Hugging Face OR Ollama) model when:14d',category:"Open source"},
+ {query:'("AI agent" OR "coding agent" OR agentic) release when:14d',category:"Agents"},
+ {query:'("artificial intelligence" OR "machine learning") research paper breakthrough when:14d',category:"Research"},
+ {query:'("generative AI" OR "AI video" OR "AI image") photography editing film when:14d',category:"Creative"},
+ {query:'("artificial intelligence" startup funding acquisition enterprise) when:14d',category:"Business"},
+ {query:'(robotics OR humanoid OR autonomous) "artificial intelligence" when:14d',category:"Robotics"},
+ {query:'("AI regulation" OR "AI Act" OR "AI safety" OR "AI policy") when:14d',category:"Policy"},
 ];
-const clean=(value:string)=>value.replace(/<!\[CDATA\[|\]\]>/g,"").replace(/<[^>]+>/g," ").replace(/&amp;/g,"&").replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/\s+/g," ").trim();
+const clean=(value:string)=>value.replace(/<!\[CDATA\[|\]\]>/g,"").replace(/<[^>]+>/g," ").replace(/&amp;/g,"&").replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/\s+/g," ").trim();
 const tag=(xml:string,name:string)=>clean(xml.match(new RegExp(`<${name}[^>]*>([\\s\\S]*?)<\\/${name}>`,"i"))?.[1]??"");
-const parse=(xml:string,category:Category):Item[]=>[...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)].slice(0,5).map(match=>{const block=match[1];const rawTitle=tag(block,"title");const split=rawTitle.split(" - ");const source=split.length>1?split.pop()!:"AI News";return{title:split.join(" - ")||rawTitle,summary:"Open the original report for the full story and source context.",source,url:tag(block,"link"),publishedAt:new Date(tag(block,"pubDate")||Date.now()).toISOString(),category}}).filter(item=>item.title&&item.url);
-export async function GET(){
-  try{
-    const groups=await Promise.all(feeds.map(async feed=>{const url=`https://news.google.com/rss/search?q=${encodeURIComponent(feed.query)}&hl=en-US&gl=US&ceid=US:en`;const response=await fetch(url,{headers:{"User-Agent":"AI-Radar/1.0"},next:{revalidate:1800}});if(!response.ok)throw new Error("feed unavailable");return parse(await response.text(),feed.category)}));
-    const items=groups.flat().sort((a,b)=>Date.parse(b.publishedAt)-Date.parse(a.publishedAt));
-    return Response.json({items,updatedAt:new Date().toISOString()},{headers:{"Cache-Control":"public, max-age=600, s-maxage=1800"}});
-  }catch{return Response.json({items:[],updatedAt:new Date().toISOString()},{status:200,headers:{"Cache-Control":"public, max-age=120"}})}
-}
+function parse(xml:string,category:Category):Item[]{return[...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)].slice(0,14).map(match=>{const block=match[1];const rawTitle=tag(block,"title");const split=rawTitle.split(" - ");const source=split.length>1?split.pop()!:"AI coverage";const description=tag(block,"description");return{title:split.join(" - ")||rawTitle,summary:description&&description!==rawTitle?description.slice(0,260):"Open the original report for full context, evidence, and release details.",source,url:tag(block,"link"),publishedAt:new Date(tag(block,"pubDate")||Date.now()).toISOString(),category}}).filter(item=>item.title&&item.url)}
+export async function GET(){try{const groups=await Promise.all(feeds.map(async feed=>{const url=`https://news.google.com/rss/search?q=${encodeURIComponent(feed.query)}&hl=en-US&gl=US&ceid=US:en`;const response=await fetch(url,{headers:{"User-Agent":"AI-Radar/3.0"},next:{revalidate:300}});if(!response.ok)return[];return parse(await response.text(),feed.category)}));const seen=new Set<string>();const items=groups.flat().sort((a,b)=>Date.parse(b.publishedAt)-Date.parse(a.publishedAt)).filter(item=>{const key=item.title.toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,90);if(seen.has(key))return false;seen.add(key);return true}).slice(0,90);return Response.json({items,meta:{updatedAt:new Date().toISOString(),total:items.length,categories:feeds.map(feed=>feed.category),refreshSeconds:300}},{headers:{"Cache-Control":"public, max-age=60, s-maxage=300, stale-while-revalidate=600"}})}catch{return Response.json({items:[],meta:{updatedAt:new Date().toISOString(),total:0,categories:[],refreshSeconds:300}},{status:200,headers:{"Cache-Control":"public, max-age=30"}})}}

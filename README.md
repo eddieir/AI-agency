@@ -1,6 +1,6 @@
 # AI Radar
 
-A live AI intelligence product for developers and visual creators. It combines a continuously refreshed frontier/small-model radar, release signals, news, audience-specific directories, pricing filters, and a comparison view.
+A live AI intelligence product for developers and visual creators. It combines a continuously refreshed frontier/small-model radar, an eight-desk newsroom with up to 90 current stories, production architecture guidance, creative workflow intelligence, pricing filters, and a comparison view.
 
 ## Development
 

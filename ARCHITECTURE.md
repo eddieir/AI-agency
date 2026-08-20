@@ -6,11 +6,11 @@ AI Radar uses a page-oriented modular architecture. Each product area owns a rou
 
 - `/` — editorial home and audience entry points
 - `/models` — continuously refreshed frontier and small-model radar
-- `/news` — live, searchable AI news feed
-- `/developers` — developer model and platform directory
-- `/creators` — photography, video, design, and editing directory
+- `/news` — eight-desk newsroom with up to 90 deduplicated stories, filters, search, and progressive loading
+- `/developers` — production architecture guide, live release pressure, and developer platform directory
+- `/creators` — creative workflow system and photography, video, design, and editing directory
 - `/compare` — cross-audience comparison matrix
-- `/api/news` — cached server-side news aggregation endpoint
+- `/api/news` — five-minute, multi-query news aggregation and deduplication endpoint
 - `/api/models` — five-minute model registry and frontier-release aggregation endpoint
 
 ## Module boundaries
