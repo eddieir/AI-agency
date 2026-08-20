@@ -52,6 +52,8 @@ test("renders an indexable editorial guide with article and breadcrumb data", as
   assert.match(html, /"@type":"Article"/);
 });
 
+test("renders a real branded 404 instead of the homepage",async()=>{const response=await render("/this-route-does-not-exist");const html=await response.text();assert.equal(response.status,404);assert.match(html,/ERROR \/ 404/);assert.match(html,/Signal(?:<br\/>|<br>)<em>not found\.<\/em>/);assert.doesNotMatch(html,/Know what(?:<br\/>|<br>)matters in AI/)});
+
 test("serves machine-readable AI discovery and RSS endpoints", async () => {
   const llmsResponse = await render("/llms.txt");
   const llms = await llmsResponse.text();

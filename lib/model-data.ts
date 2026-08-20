@@ -1,4 +1,6 @@
 import {slugify,stableHash} from "@/lib/seo";
+import{extractParameters}from"@/lib/model-parameters";
+export{extractParameters}from"@/lib/model-parameters";
 
 type HfModel={id:string;author?:string;lastModified?:string;downloads?:number;likes?:number;pipeline_tag?:string;tags?:string[];safetensors?:{total?:number};private?:boolean;gated?:boolean|string};
 export type ModelItem={id:string;slug:string;name:string;provider:string;url:string;updatedAt:string;downloads:number;likes:number;task:string;parameters:number|null;sizeLabel:string;tier:"Frontier"|"Small"|"Mid-size"|"Unknown";access:"Open"|"Gated";tags:string[];source:"Hugging Face"};
@@ -6,7 +8,6 @@ export type ModelSignal={title:string;source:string;url:string;publishedAt:strin
 export type ModelData={models:ModelItem[];signals:ModelSignal[];meta:{updatedAt:string;refreshSeconds:number;sources:string[]}};
 
 const trustedFrontier=new Set(["meta-llama","google","mistralai","deepseek-ai","qwen","nvidia","ibm-granite","microsoft","tiiuae","moonshotai","zai-org","openai"]);
-function extractParameters(model:HfModel){if(model.safetensors?.total)return model.safetensors.total;const text=`${model.id} ${(model.tags??[]).join(" ")}`;const matches=[...text.matchAll(/(?:^|[-_\s])([0-9]+(?:\.[0-9]+)?)\s*[bB](?:[-_\s]|$)/g)].map(match=>Number(match[1])*1e9);return matches.length?Math.max(...matches):null}
 function tierFor(provider:string,parameters:number|null,name:string):ModelItem["tier"]{if(parameters!==null){if(parameters<=15e9)return"Small";if(parameters>=70e9)return"Frontier";return"Mid-size"}if(trustedFrontier.has(provider.toLowerCase())&&/(ultra|max|pro|reason|r1|large|opus|frontier)/i.test(name))return"Frontier";return"Unknown"}
 function sizeLabel(parameters:number|null){if(parameters===null)return"Not disclosed";if(parameters>=1e12)return`${(parameters/1e12).toFixed(parameters%1e12?1:0)}T`;if(parameters>=1e9)return`${(parameters/1e9).toFixed(parameters%1e9?1:0)}B`;return`${Math.round(parameters/1e6)}M`}
 const modelSlug=(id:string,name:string)=>`${slugify(name)}-${stableHash(id)}`;

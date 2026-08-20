@@ -39,6 +39,8 @@ The model pipeline excludes private records, normalizes names, extracts disclose
 
 Model tiers are editorial classifications based on disclosed metadata—not benchmark scores.
 
+Parameter extraction uses an explicit evidence order: an authoritative Hugging Face `safetensors.total` value first, then a size disclosed by the repository name, then only an explicitly named parameter-count tag. Relationship tags such as `base_model` and `finetuned_from` are never treated as the current model's size.
+
 ### Benchmark intelligence workspace
 
 `/benchmarks` is an evidence-oriented leaderboard rather than an unsourced score table. It includes:
@@ -189,6 +191,8 @@ The boundaries are deliberate:
 - typed `lib/` modules own curated data and reusable domain rules;
 - CSS layers own shared tokens and route-specific presentation;
 - sitemap routes enumerate every intended indexable record.
+- live timestamps are formatted in explicit UTC on both server and client to keep hydration deterministic;
+- the root not-found boundary returns a branded, actionable 404 instead of reusing homepage content.
 
 See [`ARCHITECTURE.md`](./ARCHITECTURE.md) for the concise module map.
 
