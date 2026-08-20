@@ -22,6 +22,9 @@ test("renders the guided landing page with crawlable metadata", async () => {
   }
   assert.match(html, /href="\/news"[^>]*>News<\/a>.*href="\/models"[^>]*>Models<\/a>.*href="\/benchmarks"[^>]*>Benchmarks<\/a>.*href="\/playground"[^>]*>Playground<\/a>.*href="\/evaluations"[^>]*>Evaluations<\/a>.*href="\/router"[^>]*>Router<\/a>.*href="\/developers"[^>]*>Developers<\/a>.*href="\/creators"[^>]*>Creators<\/a>.*href="\/compare"[^>]*>Compare<\/a>/s);
   assert.match(html, /application\/ld\+json/);
+  assert.match(html, /CREATED, DESIGNED \+ ENGINEERED BY/);
+  assert.match(html, /PEYMAN IRAVANI/);
+  assert.match(html, /"founder":\{"@type":"Person","name":"Peyman Iravani"/);
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/favicon\.ico\?v=2"/);
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/favicon\.svg\?v=2"/);
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/apple-touch-icon\.png\?v=2"/);
@@ -34,6 +37,7 @@ for (const [path, heading] of [["/news", "The world of AI"], ["/models", "Every 
     assert.equal(response.status, 200);
     assert.match(html, new RegExp(`<h1[^>]*>[^<]*${heading}`));
     assert.match(html, new RegExp(`rel="canonical" href="https://axonradar\\.netlify\\.app${path}"`));
+    assert.match(html, /PEYMAN IRAVANI/);
   });
 }
 

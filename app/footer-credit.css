@@ -1,0 +1,10 @@
+.footer-creator{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;align-items:end;gap:40px;padding:38px 0;border-top:1px solid #292f2b;border-bottom:1px solid #292f2b;background:linear-gradient(90deg,rgba(173,255,47,.055),transparent 48%)}
+.footer-creator>div{display:flex;flex-direction:column;align-items:flex-start}
+.footer-creator>div>span{font-size:8px;font-weight:900;letter-spacing:.17em;color:#adff2f}
+.footer-creator>div>strong{margin-top:13px;font-size:clamp(28px,3vw,48px);line-height:.95;letter-spacing:-.055em;color:#f5f7f2}
+.site-footer .footer-creator>div>p{margin:13px 0 0;color:#818a83;font-size:11px;letter-spacing:.025em}
+.footer-creator nav{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+.footer-creator nav a{padding:13px 15px;border:1px solid #354039;color:#f5f7f2;font-size:8px;font-weight:900;letter-spacing:.12em;transition:.2s}
+.footer-creator nav a:first-child{background:#adff2f;border-color:#adff2f;color:#071008}
+.footer-creator nav a:hover{border-color:#4ee5ff;transform:translateY(-2px)}
+@media(max-width:700px){.footer-creator{grid-template-columns:1fr;align-items:start;gap:28px;padding:32px 0}.footer-creator nav{justify-content:flex-start}.footer-creator nav a{flex:1;text-align:center;white-space:nowrap}.footer-end{gap:20px;align-items:flex-start}}

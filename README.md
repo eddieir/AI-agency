@@ -4,6 +4,8 @@ AXON//RADAR is a live AI intelligence and decision platform for discovering AI r
 
 Production: [axonradar.netlify.app](https://axonradar.netlify.app/)
 
+Created, designed, and engineered by [Peyman Iravani](https://github.com/eddieir). Product direction, architecture, full-stack implementation, and UI/UX are credited globally in the shared website footer.
+
 ## Product workflow
 
 The primary navigation follows the user decision journey:
