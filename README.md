@@ -1,6 +1,6 @@
 # AI Radar
 
-A modern AI intelligence hub for developers and visual creators. It combines a live news feed, audience-specific tool directories, pricing filters, and a comparison view.
+A live AI intelligence product for developers and visual creators. It combines a continuously refreshed frontier/small-model radar, release signals, news, audience-specific directories, pricing filters, and a comparison view.
 
 ## Development
 
