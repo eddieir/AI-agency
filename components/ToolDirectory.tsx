@@ -1,0 +1,6 @@
+"use client";
+import {useMemo,useState} from "react";
+import type {Tool} from "@/lib/catalog";
+import {ToolCard} from "./ToolCard";
+const prices=["All","Free","Freemium","Paid","Open source"];
+export function ToolDirectory({items}:Readonly<{items:Tool[]}>){const [price,setPrice]=useState("All");const [query,setQuery]=useState("");const filtered=useMemo(()=>items.filter(item=>(price==="All"||item.price===price)&&`${item.name} ${item.company} ${item.category} ${item.bestFor.join(" ")}`.toLowerCase().includes(query.toLowerCase())),[items,price,query]);return <div className="directory"><div className="directory-bar"><div className="filter-pills" role="group" aria-label="Filter by pricing">{prices.map(item=><button key={item} className={price===item?"active":""} onClick={()=>setPrice(item)}>{item}</button>)}</div><label className="directory-search"><span>⌕</span><input value={query} onChange={event=>setQuery(event.target.value)} placeholder="Search by name or use case"/></label></div><p className="result-count">{String(filtered.length).padStart(2,"0")} TOOLS IN VIEW</p><div className="tool-grid directory-grid">{filtered.map((tool,index)=><ToolCard key={tool.slug} tool={tool} index={index}/>)}</div>{!filtered.length&&<div className="empty-state"><b>No signal found.</b><p>Try another price or a broader search.</p></div>}</div>}
