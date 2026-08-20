@@ -18,6 +18,9 @@ test("renders the guided landing page with crawlable metadata", async () => {
   assert.match(html, /Know what(?:<br\/>|<br>)matters in AI/);
   assert.match(html, /href="\/news"[^>]*>News<\/a>.*href="\/models"[^>]*>Models<\/a>.*href="\/developers"[^>]*>Developers<\/a>.*href="\/creators"[^>]*>Creators<\/a>.*href="\/compare"[^>]*>Compare<\/a>/s);
   assert.match(html, /application\/ld\+json/);
+  assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/favicon\.ico\?v=2"/);
+  assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/favicon\.svg\?v=2"/);
+  assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/apple-touch-icon\.png\?v=2"/);
 });
 
 for (const [path, heading] of [["/news", "The world of AI"], ["/models", "Every model"], ["/developers", "Build systems"], ["/creators", "More control"], ["/compare", "Make a"]]) {
