@@ -12,9 +12,10 @@ The primary navigation follows the user decision journey:
 2. **Models** — inspect frontier, small, mid-size, and open-model activity.
 3. **Benchmarks** — review sourced quality, coding, agentic, and speed evidence.
 4. **Playground** — design prompts, estimate cost, and export model requests.
-5. **Developers** — find APIs, runtimes, infrastructure, and production guidance.
-6. **Creators** — find image, video, editing, design, and audio tools.
-7. **Compare** — compare models or tools before committing.
+5. **Evaluations** — run representative datasets across real models, score results, and export decision evidence.
+6. **Developers** — find APIs, runtimes, infrastructure, and production guidance.
+7. **Creators** — find image, video, editing, design, and audio tools.
+8. **Compare** — compare models or tools before committing.
 
 ## Current capabilities
 
@@ -61,6 +62,14 @@ The original developer/creator tool matrix remains available at `/compare/tools`
 
 Inference runs server-side through Netlify AI Gateway when gateway credentials are available. If the site gateway is inactive, the interface offers an explicit bring-your-own OpenRouter key mode: the key is held only in component memory for the current browser tab, sent only with the Run request, and is never persisted by the application. The execution function validates origins, model IDs, prompt length, output limits, request shape, and visitor-key format; applies a 45-second model timeout; disables caching; and enforces a per-IP/domain request limit. Running a test transmits the completed prompt to the selected providers, so the interface warns users not to submit secrets or personal data.
 
+### Evaluation Studio
+
+`/evaluations` turns real workloads into controlled multi-model evaluations. Users can start from support, code-review, or editorial templates; edit the shared system instruction; add, edit, or remove test cases; define transparent expected-term checks; and select two to four executable models. The studio runs every case through the existing protected inference endpoint with the same temperature and output limit.
+
+Completed reports combine model completion rate, expected-term coverage, human quality scores, average latency, token volume, and estimated cost. Users can inspect every answer, record a one-to-five judgment, reopen recent runs saved in browser storage, export the full evidence record as JSON or CSV, and print a decision-ready report. `/evaluations/methodology` documents representative dataset design, controlled runs, scoring discipline, operational considerations, and limitations. `/evaluations/new` provides a stable entry route into the studio.
+
+Evaluation definitions, reports, and history are local-first and require no database. They stay in the current browser unless exported; only an explicit model run sends system instructions and case prompts to the inference endpoint and selected providers. Expected-term coverage is a lexical diagnostic rather than a semantic correctness claim, and the interface deliberately pairs it with human review.
+
 ### Developer and creator directories
 
 The typed catalog in `lib/catalog.ts` is the source of truth for production tools. Users can search and filter by Free, Freemium, Paid, or Open source; inspect company, category, use case, and audience; open official provider pages; and compare tools in a shared matrix.
@@ -80,6 +89,9 @@ The typed catalog in `lib/catalog.ts` is the source of truth for production tool
 | `/benchmarks/models/[slug]` | Model benchmark evidence profile |
 | `/benchmarks/methodology` | Measurement methodology and limitations |
 | `/playground` | Interactive prompt, token-cost, and API request laboratory |
+| `/evaluations` | Multi-case, multi-model Evaluation Studio and local report history |
+| `/evaluations/new` | Stable entry route for creating an evaluation |
+| `/evaluations/methodology` | Evaluation design, scoring rubric, and limitations |
 | `/developers` | Developer architecture guidance and tool directory |
 | `/creators` | Creative workflow guidance and tool directory |
 | `/compare` | Interactive two-to-four-model comparator |
@@ -107,6 +119,7 @@ app/
 ├── api/{news,models}/
 ├── benchmarks/{category,methodology,models}/
 ├── compare/{models,tools}/
+├── evaluations/{methodology,new}/
 ├── guides/[slug]/
 ├── models/[slug]/
 ├── news/{[slug],category}/
@@ -121,6 +134,7 @@ components/
 ├── ModelRadar.tsx
 ├── NewsFeed.tsx
 ├── PromptPlayground.tsx
+├── EvaluationStudio.tsx
 ├── SiteHeader.tsx
 ├── ToolDirectory.tsx
 └── shared presentation modules
@@ -129,6 +143,7 @@ lib/
 ├── benchmarks.ts
 ├── catalog.ts
 ├── comparison.ts
+├── evaluations.ts
 ├── guides.ts
 ├── news-data.ts
 ├── playground.ts
@@ -196,7 +211,7 @@ npm test
 
 The production SEO foundation includes:
 
-- server-rendered news, model, benchmark, comparison, and guide content;
+- server-rendered news, model, benchmark, comparison, evaluation, methodology, and guide content;
 - unique titles, descriptions, headings, canonical URLs, Open Graph, and X metadata;
 - Organization, WebSite, Article, BreadcrumbList, and application-oriented structured data where relevant;
 - crawlable navigation and contextual internal links;
@@ -214,6 +229,7 @@ SEO implementation improves discoverability but cannot guarantee indexing or ran
 - Source health is visible in the interface.
 - Empty or failed upstream results are reported honestly.
 - No database or object-storage binding is currently required.
+- Evaluation definitions and completed reports persist in browser local storage and can be exported as JSON or CSV.
 
 ## Content, evidence, and attribution
 
@@ -236,5 +252,6 @@ Netlify publishes the `.next` output, applies the configured redirects and secur
 - **Phase 1 — Benchmark intelligence:** live.
 - **Phase 2 — Advanced model comparison:** live.
 - **Phase 3 — Interactive request playground:** live.
+- **Phase 4 — Evaluation Studio:** live.
 
 AXON//RADAR remains under active development. Live-data availability depends on upstream publishers and model registries.

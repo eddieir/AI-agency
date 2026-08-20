@@ -11,6 +11,10 @@ export function GET(){
 
 - [Latest AI News](${SITE_URL}/news): Current source-linked AI releases, research, agents, business, robotics, policy, and creative technology.
 - [Live AI Model Radar](${SITE_URL}/models): Recently updated open models plus frontier release signals.
+- [Model Benchmarks](${SITE_URL}/benchmarks): Sourced benchmark evidence, leaderboards, and model profiles.
+- [Multi-Model Playground](${SITE_URL}/playground): Run one prompt across real models and compare outputs, speed, tokens, and cost.
+- [Evaluation Studio](${SITE_URL}/evaluations): Build controlled prompt datasets, run repeatable multi-model evaluations, score quality, and export reports.
+- [Evaluation Methodology](${SITE_URL}/evaluations/methodology): Practical guidance for representative datasets, controlled runs, human scoring, and limitations.
 - [AI Tools for Developers](${SITE_URL}/developers): APIs, runtimes, model platforms, and local AI tools.
 - [AI Tools for Creators](${SITE_URL}/creators): Tools for photography, filmmaking, editing, design, and audio.
 - [Compare AI Tools](${SITE_URL}/compare): Free, freemium, paid, and open-source tools compared by audience and use.

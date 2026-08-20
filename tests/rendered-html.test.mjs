@@ -16,14 +16,14 @@ test("renders the guided landing page with crawlable metadata", async () => {
   assert.match(html, /<title>AXON\/\/RADAR — Live AI News, Models and Tools<\/title>/);
   assert.match(html, /rel="canonical" href="https:\/\/axonradar\.netlify\.app\/"/);
   assert.match(html, /Know what(?:<br\/>|<br>)matters in AI/);
-  assert.match(html, /href="\/news"[^>]*>News<\/a>.*href="\/models"[^>]*>Models<\/a>.*href="\/benchmarks"[^>]*>Benchmarks<\/a>.*href="\/playground"[^>]*>Playground<\/a>.*href="\/developers"[^>]*>Developers<\/a>.*href="\/creators"[^>]*>Creators<\/a>.*href="\/compare"[^>]*>Compare<\/a>/s);
+  assert.match(html, /href="\/news"[^>]*>News<\/a>.*href="\/models"[^>]*>Models<\/a>.*href="\/benchmarks"[^>]*>Benchmarks<\/a>.*href="\/playground"[^>]*>Playground<\/a>.*href="\/evaluations"[^>]*>Evaluations<\/a>.*href="\/developers"[^>]*>Developers<\/a>.*href="\/creators"[^>]*>Creators<\/a>.*href="\/compare"[^>]*>Compare<\/a>/s);
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/favicon\.ico\?v=2"/);
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/favicon\.svg\?v=2"/);
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/apple-touch-icon\.png\?v=2"/);
 });
 
-for (const [path, heading] of [["/news", "The world of AI"], ["/models", "Every model"], ["/playground", "One prompt"], ["/developers", "Build systems"], ["/creators", "More control"], ["/compare", "Choose with"]]) {
+for (const [path, heading] of [["/news", "The world of AI"], ["/models", "Every model"], ["/playground", "One prompt"], ["/evaluations", "Test a model"], ["/developers", "Build systems"], ["/creators", "More control"], ["/compare", "Choose with"]]) {
   test(`renders ${path} with its primary heading`, async () => {
     const response = await render(path);
     const html = await response.text();
@@ -81,5 +81,10 @@ test("renders the advanced model comparator and permanent comparison pages",asyn
 });
 
 test("renders the browser-safe prompt playground with crawlable product metadata",async()=>{
- const response=await render("/playground"),html=await response.text();assert.equal(response.status,200);assert.match(html,/LIVE MULTI-MODEL LAB \/ NO API KEY/);assert.match(html,/Start with the result you need/);assert.match(html,/Send the same request to two to four models/);assert.match(html,/RUN SIDE-BY-SIDE TEST/);assert.match(html,/LIVE TESTING \+ PRIVACY/);assert.match(html,/Live multi-model inference/);assert.match(html,/"@type":"WebApplication"/);assert.match(html,/rel="canonical" href="https:\/\/axonradar\.netlify\.app\/playground"/);
+ const response=await render("/playground"),html=await response.text();assert.equal(response.status,200);assert.match(html,/LIVE MULTI-MODEL LAB \/ REAL INFERENCE/);assert.match(html,/One fair test/);assert.match(html,/real frontier, open, and small models/i);assert.match(html,/RUN SIDE-BY-SIDE TEST/);assert.match(html,/MODEL CONNECTION/);assert.match(html,/Live multi-model inference/);assert.match(html,/"@type":"WebApplication"/);assert.match(html,/rel="canonical" href="https:\/\/axonradar\.netlify\.app\/playground"/);
+});
+
+test("renders the complete evaluation studio and methodology",async()=>{
+ const response=await render("/evaluations"),html=await response.text();assert.equal(response.status,200);assert.match(html,/PHASE 04 \/ EVALUATION STUDIO/);assert.match(html,/Turn a real workload into a repeatable test/);assert.match(html,/Support answer quality/);assert.match(html,/RUN FULL EVALUATION/);assert.match(html,/JSON and CSV reports/);assert.match(html,/"@type":"WebApplication"/);assert.match(html,/rel="canonical" href="https:\/\/axonradar\.netlify\.app\/evaluations"/);
+ const method=await render("/evaluations/methodology"),methodHtml=await method.text();assert.equal(method.status,200);assert.match(methodHtml,/Evidence needs/);assert.match(methodHtml,/RECOMMENDED HUMAN RUBRIC/);assert.match(methodHtml,/representative cases/i);assert.match(methodHtml,/BreadcrumbList/);
 });

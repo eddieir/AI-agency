@@ -14,6 +14,8 @@ export function GET(){
     {url:`${SITE_URL}/news`,lastModified:now,changeFrequency:"hourly",priority:.95},
     {url:`${SITE_URL}/models`,lastModified:now,changeFrequency:"hourly",priority:.9},
     {url:`${SITE_URL}/playground`,lastModified:now,changeFrequency:"monthly",priority:.86},
+    {url:`${SITE_URL}/evaluations`,lastModified:now,changeFrequency:"monthly",priority:.88},
+    {url:`${SITE_URL}/evaluations/methodology`,lastModified:now,changeFrequency:"monthly",priority:.76},
     {url:`${SITE_URL}/developers`,changeFrequency:"weekly",priority:.8},
     {url:`${SITE_URL}/creators`,changeFrequency:"weekly",priority:.8},
     {url:`${SITE_URL}/compare`,changeFrequency:"weekly",priority:.75},
