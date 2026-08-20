@@ -261,6 +261,7 @@ SEO implementation improves discoverability but cannot guarantee indexing or ran
 - Successful responses support stale-while-revalidate behavior.
 - External sources are isolated with timeouts so one unavailable publisher cannot block the feed.
 - Source health is visible in the interface.
+- Searchable news, model, and benchmark surfaces provide an explicit no-results state with a one-action filter reset.
 - Empty or failed upstream results are reported honestly.
 - No database or object-storage binding is currently required.
 - Evaluation definitions, completed reports, routing policies, and dispatch summaries persist in browser local storage and can be exported.
