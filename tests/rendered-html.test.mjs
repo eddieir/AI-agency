@@ -23,7 +23,7 @@ test("renders the guided landing page with crawlable metadata", async () => {
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/apple-touch-icon\.png\?v=2"/);
 });
 
-for (const [path, heading] of [["/news", "The world of AI"], ["/models", "Every model"], ["/developers", "Build systems"], ["/creators", "More control"], ["/compare", "Make a"]]) {
+for (const [path, heading] of [["/news", "The world of AI"], ["/models", "Every model"], ["/developers", "Build systems"], ["/creators", "More control"], ["/compare", "Choose with"]]) {
   test(`renders ${path} with its primary heading`, async () => {
     const response = await render(path);
     const html = await response.text();
@@ -73,4 +73,9 @@ test("serves a fast sitemap index that separates live source discovery",async()=
 test("renders sourced benchmark intelligence and model evidence",async()=>{
  const board=await render("/benchmarks"),html=await board.text();assert.equal(board.status,200);assert.match(html,/Measure the model/);assert.match(html,/Claude Opus 5/);assert.match(html,/"@type":"Dataset"/);
  const detail=await render("/benchmarks/models/gpt-5-6-sol"),detailHtml=await detail.text();assert.equal(detail.status,200);assert.match(detailHtml,/GPT-5\.6 Sol Benchmarks, Scores and Evidence/);assert.match(detailHtml,/Coding Agent Index/);assert.match(detailHtml,/BreadcrumbList/);
+});
+
+test("renders the advanced model comparator and permanent comparison pages",async()=>{
+ const response=await render("/compare?models=claude-opus-5,gpt-5-6-sol"),html=await response.text();assert.equal(response.status,200);assert.match(html,/DECISION ENGINE \/ MODELS/);assert.match(html,/Intelligence Index/);assert.match(html,/OPEN COMPARATOR|MODEL COMPARATOR/);
+ const editorial=await render("/compare/models/claude-opus-5-vs-gpt-5-6-sol"),editorialHtml=await editorial.text();assert.equal(editorial.status,200);assert.match(editorialHtml,/Claude Opus 5 vs GPT-5\.6 Sol/);assert.match(editorialHtml,/"@type":"Article"/);
 });
