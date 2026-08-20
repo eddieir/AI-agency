@@ -1,0 +1,3 @@
+import type{MetadataRoute}from"next";
+const base="https://ai-radar-hub.eddieir.chatgpt.site";
+export default function sitemap():MetadataRoute.Sitemap{const now=new Date();return[{url:base,lastModified:now,changeFrequency:"daily",priority:1},{url:`${base}/news`,lastModified:now,changeFrequency:"hourly",priority:.95},{url:`${base}/models`,lastModified:now,changeFrequency:"hourly",priority:.9},{url:`${base}/developers`,lastModified:now,changeFrequency:"weekly",priority:.8},{url:`${base}/creators`,lastModified:now,changeFrequency:"weekly",priority:.8},{url:`${base}/compare`,lastModified:now,changeFrequency:"weekly",priority:.75}]}
