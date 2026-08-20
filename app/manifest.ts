@@ -1,0 +1,2 @@
+import type{MetadataRoute}from"next";
+export default function manifest():MetadataRoute.Manifest{return{name:"AI Radar — Live AI Intelligence",short_name:"AI Radar",description:"Live AI news, model intelligence, and practical tools for developers and creators.",start_url:"/",display:"standalone",background_color:"#070a08",theme_color:"#adff2f",icons:[{src:"/favicon.svg",sizes:"any",type:"image/svg+xml"}]}}
