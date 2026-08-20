@@ -32,3 +32,29 @@ for (const [path, heading] of [["/news", "The world of AI"], ["/models", "Every 
     assert.match(html, new RegExp(`rel="canonical" href="https://axonradar\\.netlify\\.app${path}"`));
   });
 }
+
+test("renders an indexable editorial guide with article and breadcrumb data", async () => {
+  const response = await render("/guides/choosing-an-ai-model");
+  const html = await response.text();
+  assert.equal(response.status, 200);
+  assert.match(html, /<title>How to Choose an AI Model for Production \| AXON\/\/RADAR<\/title>/);
+  assert.match(html, /rel="canonical" href="https:\/\/axonradar\.netlify\.app\/guides\/choosing-an-ai-model"/);
+  assert.match(html, /How to Choose an AI Model for Production/);
+  assert.match(html, /BreadcrumbList/);
+  assert.match(html, /"@type":"Article"/);
+});
+
+test("serves machine-readable AI discovery and RSS endpoints", async () => {
+  const llmsResponse = await render("/llms.txt");
+  const llms = await llmsResponse.text();
+  assert.equal(llmsResponse.status, 200);
+  assert.match(llmsResponse.headers.get("content-type") ?? "", /^text\/plain/i);
+  assert.match(llms, /# AXON\/\/RADAR/);
+  assert.match(llms, /https:\/\/axonradar\.netlify\.app\/sitemap\.xml/);
+
+  const rssResponse = await render("/rss.xml");
+  const rss = await rssResponse.text();
+  assert.equal(rssResponse.status, 200);
+  assert.match(rssResponse.headers.get("content-type") ?? "", /^application\/rss\+xml/i);
+  assert.match(rss, /<rss version="2\.0">/);
+});
