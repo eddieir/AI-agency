@@ -16,14 +16,14 @@ test("renders the guided landing page with crawlable metadata", async () => {
   assert.match(html, /<title>AXON\/\/RADAR — Live AI News, Models and Tools<\/title>/);
   assert.match(html, /rel="canonical" href="https:\/\/axonradar\.netlify\.app\/"/);
   assert.match(html, /Know what(?:<br\/>|<br>)matters in AI/);
-  assert.match(html, /href="\/news"[^>]*>News<\/a>.*href="\/models"[^>]*>Models<\/a>.*href="\/benchmarks"[^>]*>Benchmarks<\/a>.*href="\/developers"[^>]*>Developers<\/a>.*href="\/creators"[^>]*>Creators<\/a>.*href="\/compare"[^>]*>Compare<\/a>/s);
+  assert.match(html, /href="\/news"[^>]*>News<\/a>.*href="\/models"[^>]*>Models<\/a>.*href="\/benchmarks"[^>]*>Benchmarks<\/a>.*href="\/playground"[^>]*>Playground<\/a>.*href="\/developers"[^>]*>Developers<\/a>.*href="\/creators"[^>]*>Creators<\/a>.*href="\/compare"[^>]*>Compare<\/a>/s);
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/favicon\.ico\?v=2"/);
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/favicon\.svg\?v=2"/);
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/apple-touch-icon\.png\?v=2"/);
 });
 
-for (const [path, heading] of [["/news", "The world of AI"], ["/models", "Every model"], ["/developers", "Build systems"], ["/creators", "More control"], ["/compare", "Choose with"]]) {
+for (const [path, heading] of [["/news", "The world of AI"], ["/models", "Every model"], ["/playground", "Design the request"], ["/developers", "Build systems"], ["/creators", "More control"], ["/compare", "Choose with"]]) {
   test(`renders ${path} with its primary heading`, async () => {
     const response = await render(path);
     const html = await response.text();
@@ -78,4 +78,8 @@ test("renders sourced benchmark intelligence and model evidence",async()=>{
 test("renders the advanced model comparator and permanent comparison pages",async()=>{
  const response=await render("/compare?models=claude-opus-5,gpt-5-6-sol"),html=await response.text();assert.equal(response.status,200);assert.match(html,/DECISION ENGINE \/ MODELS/);assert.match(html,/Intelligence Index/);assert.match(html,/OPEN COMPARATOR|MODEL COMPARATOR/);
  const editorial=await render("/compare/models/claude-opus-5-vs-gpt-5-6-sol"),editorialHtml=await editorial.text();assert.equal(editorial.status,200);assert.match(editorialHtml,/Claude Opus 5 vs GPT-5\.6 Sol/);assert.match(editorialHtml,/"@type":"Article"/);
+});
+
+test("renders the browser-safe prompt playground with crawlable product metadata",async()=>{
+ const response=await render("/playground"),html=await response.text();assert.equal(response.status,200);assert.match(html,/INTERACTIVE LAB \/ PHASE 03/);assert.match(html,/Shape the request/);assert.match(html,/SAFE BY DESIGN/);assert.match(html,/JavaScript, Python, and cURL export/);assert.match(html,/"@type":"WebApplication"/);assert.match(html,/rel="canonical" href="https:\/\/axonradar\.netlify\.app\/playground"/);
 });

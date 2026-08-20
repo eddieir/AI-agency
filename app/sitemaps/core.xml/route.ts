@@ -13,6 +13,7 @@ export function GET(){
     {url:SITE_URL,lastModified:now,changeFrequency:"daily",priority:1},
     {url:`${SITE_URL}/news`,lastModified:now,changeFrequency:"hourly",priority:.95},
     {url:`${SITE_URL}/models`,lastModified:now,changeFrequency:"hourly",priority:.9},
+    {url:`${SITE_URL}/playground`,lastModified:now,changeFrequency:"monthly",priority:.86},
     {url:`${SITE_URL}/developers`,changeFrequency:"weekly",priority:.8},
     {url:`${SITE_URL}/creators`,changeFrequency:"weekly",priority:.8},
     {url:`${SITE_URL}/compare`,changeFrequency:"weekly",priority:.75},
