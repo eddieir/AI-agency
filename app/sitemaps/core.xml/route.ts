@@ -18,6 +18,8 @@ export function GET(){
     {url:`${SITE_URL}/evaluations/methodology`,lastModified:now,changeFrequency:"monthly",priority:.76},
     {url:`${SITE_URL}/router`,lastModified:now,changeFrequency:"monthly",priority:.88},
     {url:`${SITE_URL}/router/methodology`,lastModified:now,changeFrequency:"monthly",priority:.76},
+    {url:`${SITE_URL}/operations`,lastModified:now,changeFrequency:"monthly",priority:.86},
+    {url:`${SITE_URL}/operations/methodology`,lastModified:now,changeFrequency:"monthly",priority:.74},
     {url:`${SITE_URL}/developers`,changeFrequency:"weekly",priority:.8},
     {url:`${SITE_URL}/creators`,changeFrequency:"weekly",priority:.8},
     {url:`${SITE_URL}/compare`,changeFrequency:"weekly",priority:.75},

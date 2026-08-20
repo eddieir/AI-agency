@@ -14,9 +14,10 @@ The primary navigation follows the user decision journey:
 4. **Playground** — design prompts, estimate cost, and export model requests.
 5. **Evaluations** — run representative datasets across real models, score results, and export decision evidence.
 6. **Router** — convert evaluation evidence into explainable cost, quality, and fallback policies.
-7. **Developers** — find APIs, runtimes, infrastructure, and production guidance.
-8. **Creators** — find image, video, editing, design, and audio tools.
-9. **Compare** — compare models or tools before committing.
+7. **Operations** — inspect actual local reliability, latency, tokens, cost, fallbacks, traces, and budget signals.
+8. **Developers** — find APIs, runtimes, infrastructure, and production guidance.
+9. **Creators** — find image, video, editing, design, and audio tools.
+10. **Compare** — compare models or tools before committing.
 
 ## Current capabilities
 
@@ -79,6 +80,14 @@ Live dispatch calls only the selected primary model and attempts configured fall
 
 Policies and recent dispatch summaries persist in browser local storage. Users can export the complete versioned policy as JSON or typed TypeScript. `/router/methodology` documents evidence-based routing, rule transparency, model sufficiency, cost guards, fallback discipline, and observability; `/router/new` provides a stable creation entry route.
 
+### AI Operations and Observability
+
+`/operations` turns completed Router dispatches and Evaluation results into an honest local-first control center. It reads only real activity already stored in the current browser and derives request volume, success rate, average latency, input and output token volume, provider-reported cost, fallback usage, and per-model distribution. An empty browser produces a clear empty state rather than synthetic analytics.
+
+Users can filter Router and Evaluation traces, inspect the full execution ledger, set working thresholds for latency, budget, error rate, and fallback use, and export the visible evidence as JSON or CSV. Portable Operations JSON can be imported into the current view without silently modifying the underlying Router or Evaluation history. `/operations/methodology` documents provenance, calculations, alert semantics, portability, and the limits of browser-local observability.
+
+This workspace is not a replacement for production telemetry, provider billing, authentication, durable retention, privacy controls, or incident delivery. Those integrations require an authenticated backend and a real observability pipeline; the current implementation deliberately makes that boundary explicit.
+
 ### Developer and creator directories
 
 The typed catalog in `lib/catalog.ts` is the source of truth for production tools. Users can search and filter by Free, Freemium, Paid, or Open source; inspect company, category, use case, and audience; open official provider pages; and compare tools in a shared matrix.
@@ -104,6 +113,8 @@ The typed catalog in `lib/catalog.ts` is the source of truth for production tool
 | `/router` | Explainable routing-policy builder, simulator, live dispatcher, and exporter |
 | `/router/new` | Stable entry route for creating a routing policy |
 | `/router/methodology` | Routing rules, cost guards, fallback, and observability method |
+| `/operations` | Local-first AI operations dashboard, thresholds, trace ledger, and exports |
+| `/operations/methodology` | Operations provenance, calculations, limitations, and portability |
 | `/developers` | Developer architecture guidance and tool directory |
 | `/creators` | Creative workflow guidance and tool directory |
 | `/compare` | Interactive two-to-four-model comparator |
@@ -133,6 +144,7 @@ app/
 ├── compare/{models,tools}/
 ├── evaluations/{methodology,new}/
 ├── router/{methodology,new}/
+├── operations/methodology/
 ├── guides/[slug]/
 ├── models/[slug]/
 ├── news/{[slug],category}/
@@ -149,6 +161,7 @@ components/
 ├── PromptPlayground.tsx
 ├── EvaluationStudio.tsx
 ├── ModelRouter.tsx
+├── OperationsConsole.tsx
 ├── SiteHeader.tsx
 ├── ToolDirectory.tsx
 └── shared presentation modules
@@ -269,5 +282,6 @@ Netlify publishes the `.next` output, applies the configured redirects and secur
 - **Phase 3 — Interactive request playground:** live.
 - **Phase 4 — Evaluation Studio:** live.
 - **Phase 5 — Intelligent Model Router:** live.
+- **Phase 6 — AI Operations and Observability:** live.
 
 AXON//RADAR remains under active development. Live-data availability depends on upstream publishers and model registries.

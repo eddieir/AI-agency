@@ -16,6 +16,10 @@ test("renders the guided landing page with crawlable metadata", async () => {
   assert.match(html, /<title>AXON\/\/RADAR — Live AI News, Models and Tools<\/title>/);
   assert.match(html, /rel="canonical" href="https:\/\/axonradar\.netlify\.app\/"/);
   assert.match(html, /Know what(?:<br\/>|<br>)matters in AI/);
+  assert.match(html, /Benchmark → Test → Evaluate → Route → Observe/);
+  for (const workspace of ["NEWS", "MODELS", "BENCHMARKS", "PLAYGROUND", "EVALUATIONS", "ROUTER", "OPERATIONS", "DEVELOPERS", "CREATORS", "COMPARE"]) {
+    assert.match(html, new RegExp(`>${workspace}<`));
+  }
   assert.match(html, /href="\/news"[^>]*>News<\/a>.*href="\/models"[^>]*>Models<\/a>.*href="\/benchmarks"[^>]*>Benchmarks<\/a>.*href="\/playground"[^>]*>Playground<\/a>.*href="\/evaluations"[^>]*>Evaluations<\/a>.*href="\/router"[^>]*>Router<\/a>.*href="\/developers"[^>]*>Developers<\/a>.*href="\/creators"[^>]*>Creators<\/a>.*href="\/compare"[^>]*>Compare<\/a>/s);
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/favicon\.ico\?v=2"/);
@@ -23,7 +27,7 @@ test("renders the guided landing page with crawlable metadata", async () => {
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/apple-touch-icon\.png\?v=2"/);
 });
 
-for (const [path, heading] of [["/news", "The world of AI"], ["/models", "Every model"], ["/playground", "One prompt"], ["/evaluations", "Test a model"], ["/router", "Right request"], ["/developers", "Build systems"], ["/creators", "More control"], ["/compare", "Choose with"]]) {
+for (const [path, heading] of [["/news", "The world of AI"], ["/models", "Every model"], ["/playground", "One prompt"], ["/evaluations", "Test a model"], ["/router", "Right request"], ["/operations", "See the system"], ["/developers", "Build systems"], ["/creators", "More control"], ["/compare", "Choose with"]]) {
   test(`renders ${path} with its primary heading`, async () => {
     const response = await render(path);
     const html = await response.text();
