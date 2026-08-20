@@ -57,9 +57,9 @@ The original developer/creator tool matrix remains available at `/compare/tools`
 
 ### Interactive request playground
 
-`/playground` is a browser-safe request-design laboratory. It includes workflow presets, editable system and user prompts, reusable variable resolution, model selection, output format and sampling controls, estimated token and maximum cost visibility, resolved-request inspection, and JavaScript, Python, or cURL export.
+`/playground` is a live multi-model testing laboratory. It includes workflow presets, editable system and user prompts, reusable variable resolution, output and sampling controls, and an allowlisted set of frontier, open, and small models. One controlled request can run across two to four models, returning real outputs with measured latency, token usage, and cost. Users can mark the best answer and export its configuration as JavaScript, Python, or cURL.
 
-The playground does not execute inference, collect API keys, or transmit prompt content. It prepares inspectable requests for users to validate and run in their own provider environment.
+Inference runs server-side through Netlify AI Gateway. Visitors never provide or receive provider keys. The execution function validates origins, model IDs, prompt length, output limits, and request shape; applies a 45-second model timeout; disables caching; and enforces a per-IP/domain request limit. Running a test transmits the completed prompt to the selected providers, so the interface warns users not to submit secrets or personal data.
 
 ### Developer and creator directories
 

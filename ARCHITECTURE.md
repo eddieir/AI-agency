@@ -7,7 +7,8 @@ AXON//RADAR uses a page-oriented modular architecture. Each product area owns a 
 - `/` — editorial home and audience entry points
 - `/models` — continuously refreshed frontier and small-model radar
 - `/benchmarks` — sourced benchmark evidence, metric leaderboards, and model profiles
-- `/playground` — browser-safe prompt design, token-cost inspection, and request export
+- `/playground` — live two-to-four-model testing, measured output comparison, winner selection, and request export
+- `/api/playground/run` — rate-limited Netlify AI Gateway inference across an explicit model allowlist
 - `/news` — eight-desk newsroom with up to 90 deduplicated stories, filters, search, and progressive loading
 - `/developers` — production architecture guide, live release pressure, and developer platform directory
 - `/creators` — creative workflow system and photography, video, design, and editing directory
@@ -22,8 +23,8 @@ AXON//RADAR uses a page-oriented modular architecture. Each product area owns a 
 - `components/` contains reusable presentation and interaction modules.
 - `lib/catalog.ts` is the typed catalog source of truth.
 - `lib/benchmarks.ts` and `lib/comparison.ts` own benchmark evidence and model-decision facts.
-- `lib/playground.ts` owns reusable playground workflows and variable-resolution rules.
+- `lib/playground.ts` owns reusable workflows and variable-resolution rules; `lib/playground-models.ts` owns the executable model allowlist and pricing snapshot.
 - `app/api/news/route.ts` isolates external feed retrieval from the UI.
 - `app/api/models/route.ts` normalizes live registry data, infers disclosed model scale, and merges frontier release signals.
 
-The UI layer never owns provider data. Filtering and playground composition are local and progressive. Prompt content remains in the browser, and the playground never accepts API keys or executes inference. External feed failures are surfaced honestly rather than replaced with fabricated records.
+The UI layer never owns provider credentials. Playground composition is local; only an explicit Run action sends the completed prompt to the protected Netlify function. The function uses AI Gateway-injected secrets, validates every request, applies hard limits and timeouts, and returns normalized results without caching. External failures are surfaced honestly rather than replaced with fabricated records.

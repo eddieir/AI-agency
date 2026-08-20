@@ -23,7 +23,7 @@ test("renders the guided landing page with crawlable metadata", async () => {
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/apple-touch-icon\.png\?v=2"/);
 });
 
-for (const [path, heading] of [["/news", "The world of AI"], ["/models", "Every model"], ["/playground", "From a task to"], ["/developers", "Build systems"], ["/creators", "More control"], ["/compare", "Choose with"]]) {
+for (const [path, heading] of [["/news", "The world of AI"], ["/models", "Every model"], ["/playground", "One prompt"], ["/developers", "Build systems"], ["/creators", "More control"], ["/compare", "Choose with"]]) {
   test(`renders ${path} with its primary heading`, async () => {
     const response = await render(path);
     const html = await response.text();
@@ -81,5 +81,5 @@ test("renders the advanced model comparator and permanent comparison pages",asyn
 });
 
 test("renders the browser-safe prompt playground with crawlable product metadata",async()=>{
- const response=await render("/playground"),html=await response.text();assert.equal(response.status,200);assert.match(html,/AI REQUEST BUILDER \/ NO SIGN-IN/);assert.match(html,/Start with the result you need/);assert.match(html,/This playground prepares requests\. It does not generate an AI answer/);assert.match(html,/SAFE BY DESIGN/);assert.match(html,/JavaScript, Python, and cURL export/);assert.match(html,/"@type":"WebApplication"/);assert.match(html,/rel="canonical" href="https:\/\/axonradar\.netlify\.app\/playground"/);
+ const response=await render("/playground"),html=await response.text();assert.equal(response.status,200);assert.match(html,/LIVE MULTI-MODEL LAB \/ NO API KEY/);assert.match(html,/Start with the result you need/);assert.match(html,/Send the same request to two to four models/);assert.match(html,/RUN SIDE-BY-SIDE TEST/);assert.match(html,/LIVE TESTING \+ PRIVACY/);assert.match(html,/Live multi-model inference/);assert.match(html,/"@type":"WebApplication"/);assert.match(html,/rel="canonical" href="https:\/\/axonradar\.netlify\.app\/playground"/);
 });
