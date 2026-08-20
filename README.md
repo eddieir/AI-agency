@@ -13,9 +13,10 @@ The primary navigation follows the user decision journey:
 3. **Benchmarks** — review sourced quality, coding, agentic, and speed evidence.
 4. **Playground** — design prompts, estimate cost, and export model requests.
 5. **Evaluations** — run representative datasets across real models, score results, and export decision evidence.
-6. **Developers** — find APIs, runtimes, infrastructure, and production guidance.
-7. **Creators** — find image, video, editing, design, and audio tools.
-8. **Compare** — compare models or tools before committing.
+6. **Router** — convert evaluation evidence into explainable cost, quality, and fallback policies.
+7. **Developers** — find APIs, runtimes, infrastructure, and production guidance.
+8. **Creators** — find image, video, editing, design, and audio tools.
+9. **Compare** — compare models or tools before committing.
 
 ## Current capabilities
 
@@ -70,6 +71,14 @@ Completed reports combine model completion rate, expected-term coverage, human q
 
 Evaluation definitions, reports, and history are local-first and require no database. They stay in the current browser unless exported; only an explicit model run sends system instructions and case prompts to the inference endpoint and selected providers. Expected-term coverage is a lexical diagnostic rather than a semantic correctness claim, and the interface deliberately pairs it with human review.
 
+### Intelligent Model Router
+
+`/router` converts model evidence into an executable routing policy. Users can begin with balanced, cost-first, or quality-first templates; edit ordered task, keyword, and request-length rules; select primary routes; define cost and latency limits; and configure a three-step fallback chain. The deterministic simulator evaluates every rule locally and exposes the complete decision trace, selected model, reason, matched signals, token estimate, cost estimate, budget status, and estimated savings relative to a frontier baseline.
+
+Live dispatch calls only the selected primary model and attempts configured fallbacks sequentially only after execution failure. The existing protected inference function now accepts one to four allowlisted models so Router can dispatch one selected route while Playground and Evaluations continue enforcing their own multi-model selection rules. Every live attempt, latency, token count, and provider-reported cost is visible.
+
+Policies and recent dispatch summaries persist in browser local storage. Users can export the complete versioned policy as JSON or typed TypeScript. `/router/methodology` documents evidence-based routing, rule transparency, model sufficiency, cost guards, fallback discipline, and observability; `/router/new` provides a stable creation entry route.
+
 ### Developer and creator directories
 
 The typed catalog in `lib/catalog.ts` is the source of truth for production tools. Users can search and filter by Free, Freemium, Paid, or Open source; inspect company, category, use case, and audience; open official provider pages; and compare tools in a shared matrix.
@@ -92,6 +101,9 @@ The typed catalog in `lib/catalog.ts` is the source of truth for production tool
 | `/evaluations` | Multi-case, multi-model Evaluation Studio and local report history |
 | `/evaluations/new` | Stable entry route for creating an evaluation |
 | `/evaluations/methodology` | Evaluation design, scoring rubric, and limitations |
+| `/router` | Explainable routing-policy builder, simulator, live dispatcher, and exporter |
+| `/router/new` | Stable entry route for creating a routing policy |
+| `/router/methodology` | Routing rules, cost guards, fallback, and observability method |
 | `/developers` | Developer architecture guidance and tool directory |
 | `/creators` | Creative workflow guidance and tool directory |
 | `/compare` | Interactive two-to-four-model comparator |
@@ -120,6 +132,7 @@ app/
 ├── benchmarks/{category,methodology,models}/
 ├── compare/{models,tools}/
 ├── evaluations/{methodology,new}/
+├── router/{methodology,new}/
 ├── guides/[slug]/
 ├── models/[slug]/
 ├── news/{[slug],category}/
@@ -135,6 +148,7 @@ components/
 ├── NewsFeed.tsx
 ├── PromptPlayground.tsx
 ├── EvaluationStudio.tsx
+├── ModelRouter.tsx
 ├── SiteHeader.tsx
 ├── ToolDirectory.tsx
 └── shared presentation modules
@@ -144,6 +158,7 @@ lib/
 ├── catalog.ts
 ├── comparison.ts
 ├── evaluations.ts
+├── router.ts
 ├── guides.ts
 ├── news-data.ts
 ├── playground.ts
@@ -229,7 +244,7 @@ SEO implementation improves discoverability but cannot guarantee indexing or ran
 - Source health is visible in the interface.
 - Empty or failed upstream results are reported honestly.
 - No database or object-storage binding is currently required.
-- Evaluation definitions and completed reports persist in browser local storage and can be exported as JSON or CSV.
+- Evaluation definitions, completed reports, routing policies, and dispatch summaries persist in browser local storage and can be exported.
 
 ## Content, evidence, and attribution
 
@@ -253,5 +268,6 @@ Netlify publishes the `.next` output, applies the configured redirects and secur
 - **Phase 2 — Advanced model comparison:** live.
 - **Phase 3 — Interactive request playground:** live.
 - **Phase 4 — Evaluation Studio:** live.
+- **Phase 5 — Intelligent Model Router:** live.
 
 AXON//RADAR remains under active development. Live-data availability depends on upstream publishers and model registries.

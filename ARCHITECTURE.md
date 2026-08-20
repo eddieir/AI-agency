@@ -11,6 +11,9 @@ AXON//RADAR uses a page-oriented modular architecture. Each product area owns a 
 - `/evaluations` — local-first multi-case evaluation design, real batch execution, scoring, reports, and history
 - `/evaluations/new` — stable creation entry point redirected into the studio
 - `/evaluations/methodology` — evaluation design, human rubric, reproducibility, and limitations
+- `/router` — ordered policy authoring, local simulation, cost guards, live dispatch, fallback execution, and export
+- `/router/new` — stable routing-policy creation entry point
+- `/router/methodology` — evidence, rule design, failure handling, budget, and observability guidance
 - `/api/playground/run` — rate-limited Netlify AI Gateway inference across an explicit model allowlist
 - `/news` — eight-desk newsroom with up to 90 deduplicated stories, filters, search, and progressive loading
 - `/developers` — production architecture guide, live release pressure, and developer platform directory
@@ -28,9 +31,12 @@ AXON//RADAR uses a page-oriented modular architecture. Each product area owns a 
 - `lib/benchmarks.ts` and `lib/comparison.ts` own benchmark evidence and model-decision facts.
 - `lib/playground.ts` owns reusable workflows and variable-resolution rules; `lib/playground-models.ts` owns the executable model allowlist and pricing snapshot.
 - `lib/evaluations.ts` owns evaluation templates, result types, transparent requirement checks, and model-level aggregation.
+- `lib/router.ts` owns policy templates, routing types, ordered matching, cost estimation, decision traces, and portable policy serialization.
 - `app/api/news/route.ts` isolates external feed retrieval from the UI.
 - `app/api/models/route.ts` normalizes live registry data, infers disclosed model scale, and merges frontier release signals.
 
 Playground composition is local; only an explicit Run action sends the completed prompt to the protected Netlify function. The function prefers AI Gateway-injected secrets. When the gateway is inactive, a visitor may explicitly supply an OpenRouter key held only in React component memory for the current tab and forwarded in that Run request; the application does not persist it. The function validates every request, applies hard limits and timeouts, and returns normalized results without caching. External failures are surfaced honestly rather than replaced with fabricated records.
 
 The Evaluation Studio reuses that inference boundary once per test case and executes selected models concurrently within each case. Evaluation definitions, answers, human ratings, and report history persist only in browser local storage; JSON and CSV export provide portable records without introducing a database. Expected-term scoring is deterministic and inspectable. It is presented as a lexical coverage signal and remains separate from the human quality rubric.
+
+The Router performs policy matching and cost estimation entirely in the browser. A live dispatch sends only the selected primary model to the inference function; configured fallbacks are attempted sequentially by the client after execution failure. The shared endpoint accepts one to four allowlisted model IDs, while each product interface enforces its own selection contract. Routing policies and non-secret dispatch summaries persist locally and can be exported as versioned JSON or typed TypeScript.

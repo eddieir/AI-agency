@@ -16,14 +16,14 @@ test("renders the guided landing page with crawlable metadata", async () => {
   assert.match(html, /<title>AXON\/\/RADAR — Live AI News, Models and Tools<\/title>/);
   assert.match(html, /rel="canonical" href="https:\/\/axonradar\.netlify\.app\/"/);
   assert.match(html, /Know what(?:<br\/>|<br>)matters in AI/);
-  assert.match(html, /href="\/news"[^>]*>News<\/a>.*href="\/models"[^>]*>Models<\/a>.*href="\/benchmarks"[^>]*>Benchmarks<\/a>.*href="\/playground"[^>]*>Playground<\/a>.*href="\/evaluations"[^>]*>Evaluations<\/a>.*href="\/developers"[^>]*>Developers<\/a>.*href="\/creators"[^>]*>Creators<\/a>.*href="\/compare"[^>]*>Compare<\/a>/s);
+  assert.match(html, /href="\/news"[^>]*>News<\/a>.*href="\/models"[^>]*>Models<\/a>.*href="\/benchmarks"[^>]*>Benchmarks<\/a>.*href="\/playground"[^>]*>Playground<\/a>.*href="\/evaluations"[^>]*>Evaluations<\/a>.*href="\/router"[^>]*>Router<\/a>.*href="\/developers"[^>]*>Developers<\/a>.*href="\/creators"[^>]*>Creators<\/a>.*href="\/compare"[^>]*>Compare<\/a>/s);
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/favicon\.ico\?v=2"/);
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/favicon\.svg\?v=2"/);
   assert.match(html, /href="https:\/\/axonradar\.netlify\.app\/apple-touch-icon\.png\?v=2"/);
 });
 
-for (const [path, heading] of [["/news", "The world of AI"], ["/models", "Every model"], ["/playground", "One prompt"], ["/evaluations", "Test a model"], ["/developers", "Build systems"], ["/creators", "More control"], ["/compare", "Choose with"]]) {
+for (const [path, heading] of [["/news", "The world of AI"], ["/models", "Every model"], ["/playground", "One prompt"], ["/evaluations", "Test a model"], ["/router", "Right request"], ["/developers", "Build systems"], ["/creators", "More control"], ["/compare", "Choose with"]]) {
   test(`renders ${path} with its primary heading`, async () => {
     const response = await render(path);
     const html = await response.text();
@@ -87,4 +87,9 @@ test("renders the browser-safe prompt playground with crawlable product metadata
 test("renders the complete evaluation studio and methodology",async()=>{
  const response=await render("/evaluations"),html=await response.text();assert.equal(response.status,200);assert.match(html,/PHASE 04 \/ EVALUATION STUDIO/);assert.match(html,/Turn a real workload into a repeatable test/);assert.match(html,/Support answer quality/);assert.match(html,/RUN FULL EVALUATION/);assert.match(html,/JSON and CSV reports/);assert.match(html,/"@type":"WebApplication"/);assert.match(html,/rel="canonical" href="https:\/\/axonradar\.netlify\.app\/evaluations"/);
  const method=await render("/evaluations/methodology"),methodHtml=await method.text();assert.equal(method.status,200);assert.match(methodHtml,/Evidence needs/);assert.match(methodHtml,/RECOMMENDED HUMAN RUBRIC/);assert.match(methodHtml,/representative cases/i);assert.match(methodHtml,/BreadcrumbList/);
+});
+
+test("renders the intelligent router and routing methodology",async()=>{
+ const response=await render("/router"),html=await response.text();assert.equal(response.status,200);assert.match(html,/PHASE 05 \/ INTELLIGENT ROUTER/);assert.match(html,/Define the operating limits/);assert.match(html,/See the decision before spending a token/);assert.match(html,/SIMULATE ROUTE/);assert.match(html,/DISPATCH ROUTED REQUEST/);assert.match(html,/JSON and TypeScript export/);assert.match(html,/"@type":"SoftwareApplication"/);assert.match(html,/rel="canonical" href="https:\/\/axonradar\.netlify\.app\/router"/);
+ const method=await render("/router/methodology"),methodHtml=await method.text();assert.equal(method.status,200);assert.match(methodHtml,/Every route/);assert.match(methodHtml,/PRODUCTION CHECKLIST/);assert.match(methodHtml,/Route from evidence/);assert.match(methodHtml,/BreadcrumbList/);
 });
