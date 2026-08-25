@@ -1,4 +1,5 @@
 import assert from"node:assert/strict";import test from"node:test";import{readFile}from"node:fs/promises";import{formatUtcDate,formatUtcTime}from"../lib/date-format.ts";import{extractParameters}from"../lib/model-parameters.ts";import{pluralize}from"../lib/grammar.ts";
+import{modelIdFromSlug,modelSlug}from"../lib/model-slug.ts";
 
 test("UTC timestamp formatting is deterministic across runtime timezones",()=>{const value="2026-08-20T23:30:00.000Z";const previous=process.env.TZ;process.env.TZ="Pacific/Auckland";const a=formatUtcTime(value),dateA=formatUtcDate(value,"year");process.env.TZ="America/Los_Angeles";const b=formatUtcTime(value),dateB=formatUtcDate(value,"year");process.env.TZ=previous;assert.equal(a,"23:30");assert.equal(a,b);assert.equal(dateA,"Aug 20, 2026");assert.equal(dateA,dateB)});
 
@@ -13,3 +14,9 @@ test("evaluation labels use correct singular and plural grammar",()=>{assert.equ
 test("filterable intelligence surfaces retain explicit zero-result recovery",async()=>{const files=["components/BenchmarkExplorer.tsx","components/ModelRadar.tsx","components/NewsFeed.tsx"];for(const file of files){const source=await readFile(new URL(`../${file}`,import.meta.url),"utf8");assert.match(source,/role="status"/);assert.match(source,/clear (search|filters)/i)}});
 
 test("comparison missing values use one consistent presentation",async()=>{const source=await readFile(new URL("../components/ModelComparator.tsx",import.meta.url),"utf8");assert.match(source,/recorded\(m\.hosting\)/);assert.match(source,/recorded\(m\.privacy\)/)});
+
+test("model URLs retain the exact upstream repository identity",()=>{const id="Qwen/模型 3.5-special_4B";const slug=modelSlug(id,"模型 3.5-special_4B",value=>value.toLowerCase().replace(/[^a-z0-9]+/g,"-"));assert.equal(modelIdFromSlug(slug),id);assert.equal(modelIdFromSlug("legacy-model-abc123"),null)});
+
+test("server-rendered routes receive the complete security policy",async()=>{const source=await readFile(new URL("../next.config.ts",import.meta.url),"utf8");for(const header of["Content-Security-Policy","Cross-Origin-Opener-Policy","Permissions-Policy","Referrer-Policy","X-Frame-Options","X-Content-Type-Options"])assert.match(source,new RegExp(header));assert.match(source,/frame-ancestors 'none'/);assert.match(source,/connect-src 'self'/)});
+
+test("dynamic sitemaps avoid serving day-old volatile records",async()=>{for(const file of["app/sitemaps/news.xml/route.ts","app/sitemaps/models.xml/route.ts"]){const source=await readFile(new URL(`../${file}`,import.meta.url),"utf8");assert.match(source,/s-maxage=300/);assert.doesNotMatch(source,/stale-while-revalidate/)}});

@@ -1,4 +1,5 @@
 import {slugify,stableHash} from "@/lib/seo";
+import{archiveNewsItems,getArchivedNewsItem}from"@/lib/content-archive";
 
 export type NewsCategory="Frontier"|"Open source"|"Agents"|"Research"|"Creative"|"Business"|"Robotics"|"Policy";
 export type NewsItem={id:string;slug:string;title:string;summary:string;source:string;url:string;publishedAt:string;category:NewsCategory};
@@ -71,10 +72,11 @@ export async function getNewsData():Promise<NewsData>{
   const health=results.map(result=>result.health);
   const seen=new Set<string>();
   const items=results.flatMap(result=>result.items).sort((a,b)=>Date.parse(b.publishedAt)-Date.parse(a.publishedAt)).filter(item=>{const key=item.title.toLowerCase().replace(/[^a-z0-9]/g,"").slice(0,100);if(seen.has(key))return false;seen.add(key);return true}).slice(0,100);
+  await archiveNewsItems(items);
   return{items,meta:{updatedAt:new Date().toISOString(),total:items.length,liveSources:health.filter(source=>source.ok).length,totalSources:health.length,health,refreshSeconds:300}};
 }
 
 export async function getNewsItem(slug:string){
   const data=await getNewsData();
-  return data.items.find(item=>item.slug===slug)??null;
+  return data.items.find(item=>item.slug===slug)??await getArchivedNewsItem(slug);
 }

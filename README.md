@@ -174,10 +174,12 @@ lib/
 ├── benchmarks.ts
 ├── catalog.ts
 ├── comparison.ts
+├── content-archive.ts
 ├── evaluations.ts
 ├── router.ts
 ├── guides.ts
 ├── news-data.ts
+├── model-slug.ts
 ├── playground.ts
 ├── seo.ts
 └── sitemap-xml.ts
@@ -250,6 +252,7 @@ The production SEO foundation includes:
 - Organization, WebSite, Article, BreadcrumbList, and application-oriented structured data where relevant;
 - crawlable navigation and contextual internal links;
 - split dynamic sitemaps for core, news, and model records;
+- permanent news URLs backed by a durable Netlify Blobs archive and self-resolving model URLs;
 - `robots.txt`, RSS, `llms.txt`, and a web manifest;
 - Google Search Console verification and submitted sitemap coverage.
 
@@ -258,12 +261,15 @@ SEO implementation improves discoverability but cannot guarantee indexing or ran
 ## Caching and resilience
 
 - News and model responses use a five-minute shared cache.
+- Every surfaced news record is written to a strongly consistent Netlify Blobs archive before it is indexed, so feed rotation cannot turn published detail URLs into 404s.
+- Model slugs encode the exact Hugging Face repository identity; rotated records resolve directly against the upstream registry, while model sitemaps exclude unproven zero-engagement uploads.
+- Volatile child sitemaps revalidate every five minutes without a day-long stale window.
 - Successful responses support stale-while-revalidate behavior.
 - External sources are isolated with timeouts so one unavailable publisher cannot block the feed.
 - Source health is visible in the interface.
 - Searchable news, model, and benchmark surfaces provide an explicit no-results state with a one-action filter reset.
 - Empty or failed upstream results are reported honestly.
-- No database or object-storage binding is currently required.
+- The durable news archive uses Netlify Blobs with automatic production context; local development degrades safely when that context is absent.
 - Evaluation definitions, completed reports, routing policies, and dispatch summaries persist in browser local storage and can be exported.
 
 ## Content, evidence, and attribution
@@ -280,7 +286,7 @@ The canonical repository is deployed to Netlify using `netlify.toml` and the Net
 npm run build:netlify
 ```
 
-Netlify publishes the `.next` output, applies the configured redirects and security headers, and automatically rebuilds production after changes reach the repository’s `main` branch.
+Netlify publishes the `.next` output and automatically rebuilds production after changes reach the repository’s `main` branch. Static assets receive Netlify header rules, while Next.js applies the same clickjacking, referrer, permissions, isolation, MIME, HSTS, and Content Security Policy protections to server-rendered responses.
 
 ## Release status
 
