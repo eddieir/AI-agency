@@ -11,6 +11,7 @@ import "./seo-pages.css";
 import "./benchmarks.css";
 import "./compare-v2.css";
 import "./playground.css";
+import "./vision-playground.css";
 import "./evaluations.css";
 import "./router.css";
 import "./operations.css";

@@ -8,13 +8,14 @@ AXON//RADAR uses a page-oriented modular architecture. Each product area owns a 
 - `/models` — continuously refreshed frontier and small-model radar
 - `/benchmarks` — sourced benchmark evidence, metric leaderboards, and model profiles
 - `/playground` — live two-to-four-model testing, measured output comparison, winner selection, and request export
+- `/playground/vision` — ephemeral single-image comparison across explicitly vision-capable models
 - `/evaluations` — local-first multi-case evaluation design, real batch execution, scoring, reports, and history
 - `/evaluations/new` — stable creation entry point redirected into the studio
 - `/evaluations/methodology` — evaluation design, human rubric, reproducibility, and limitations
 - `/router` — ordered policy authoring, local simulation, cost guards, live dispatch, fallback execution, and export
 - `/router/new` — stable routing-policy creation entry point
 - `/router/methodology` — evidence, rule design, failure handling, budget, and observability guidance
-- `/api/playground/run` — rate-limited Netlify AI Gateway inference across an explicit model allowlist
+- `/api/playground/run` — rate-limited text and vision inference across explicit model and capability allowlists
 - `/news` — eight-desk newsroom with up to 90 deduplicated stories, filters, search, and progressive loading
 - `/developers` — production architecture guide, live release pressure, and developer platform directory
 - `/creators` — creative workflow system and photography, video, design, and editing directory
@@ -36,6 +37,8 @@ AXON//RADAR uses a page-oriented modular architecture. Each product area owns a 
 - `app/api/models/route.ts` normalizes live registry data, infers disclosed model scale, and merges frontier release signals.
 
 Playground composition is local; only an explicit Run action sends the completed prompt to the protected Netlify function. The function prefers AI Gateway-injected secrets. When the gateway is inactive, a visitor may explicitly supply an OpenRouter key held only in React component memory for the current tab and forwarded in that Run request; the application does not persist it. The function validates every request, applies hard limits and timeouts, and returns normalized results without caching. External failures are surfaced honestly rather than replaced with fabricated records.
+
+Vision requests reuse that boundary with a distinct `mode: "vision"` contract. The client accepts one JPEG, PNG, or WebP file up to 4 MB and holds its data URL in component memory. The server repeats MIME, encoded-payload-size, prompt, origin, key, and model validation; rejects models without an explicit vision capability; and converts the request into provider-compatible text and `image_url` content. No image is written to local storage, durable storage, logs, cache, exports, or URLs. The route, footer, machine-readable discovery file, and core sitemap expose the feature as a permanent indexable product surface.
 
 The Evaluation Studio reuses that inference boundary once per test case and executes selected models concurrently within each case. Evaluation definitions, answers, human ratings, and report history persist only in browser local storage; JSON and CSV export provide portable records without introducing a database. Expected-term scoring is deterministic and inspectable. It is presented as a lexical coverage signal and remains separate from the human quality rubric.
 

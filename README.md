@@ -13,7 +13,7 @@ The primary navigation follows the user decision journey:
 1. **News** — follow releases, research, business, agents, creative AI, robotics, and policy.
 2. **Models** — inspect frontier, small, mid-size, and open-model activity.
 3. **Benchmarks** — review sourced quality, coding, agentic, and speed evidence.
-4. **Playground** — design prompts, estimate cost, and export model requests.
+4. **Playground** — compare text prompts or image understanding across real models with measured usage.
 5. **Evaluations** — run representative datasets across real models, score results, and export decision evidence.
 6. **Router** — convert evaluation evidence into explainable cost, quality, and fallback policies.
 7. **Operations** — inspect actual local reliability, latency, tokens, cost, fallbacks, traces, and budget signals.
@@ -68,6 +68,8 @@ The original developer/creator tool matrix remains available at `/compare/tools`
 
 Inference runs server-side through Netlify AI Gateway when gateway credentials are available. If the site gateway is inactive, the interface offers an explicit bring-your-own OpenRouter key mode: the key is held only in component memory for the current browser tab, sent only with the Run request, and is never persisted by the application. The execution function validates origins, model IDs, prompt length, output limits, request shape, and visitor-key format; applies a 45-second model timeout; disables caching; and enforces a per-IP/domain request limit. Running a test transmits the completed prompt to the selected providers, so the interface warns users not to submit secrets or personal data.
 
+`/playground/vision` extends the same protected boundary to image understanding. A user selects one JPEG, PNG, or WebP image up to 4 MB, previews it locally, writes one visual question, and runs only explicitly vision-capable models. The endpoint rejects unsupported MIME types, oversized payloads, non-vision models, excessive prompts, invalid origins, and unallowlisted model IDs. Images and visitor keys remain ephemeral, are never written to browser storage or AXON//RADAR persistence, and are sent to providers only after the user explicitly runs the comparison.
+
 ### Evaluation Studio
 
 `/evaluations` turns real workloads into controlled multi-model evaluations. Users can start from support, code-review, or editorial templates; edit the shared system instruction; add, edit, or remove test cases; define transparent expected-term checks; and select two to four executable models. The studio runs every case through the existing protected inference endpoint with the same temperature and output limit.
@@ -111,6 +113,7 @@ The typed catalog in `lib/catalog.ts` is the source of truth for production tool
 | `/benchmarks/models/[slug]` | Model benchmark evidence profile |
 | `/benchmarks/methodology` | Measurement methodology and limitations |
 | `/playground` | Interactive prompt, token-cost, and API request laboratory |
+| `/playground/vision` | Secure multimodal image-understanding comparison laboratory |
 | `/evaluations` | Multi-case, multi-model Evaluation Studio and local report history |
 | `/evaluations/new` | Stable entry route for creating an evaluation |
 | `/evaluations/methodology` | Evaluation design, scoring rubric, and limitations |
@@ -153,6 +156,7 @@ app/
 ├── models/[slug]/
 ├── news/{[slug],category}/
 ├── playground/
+│   └── vision/
 ├── sitemaps/{core.xml,models.xml,news.xml}/
 ├── developers/
 ├── creators/
@@ -163,6 +167,7 @@ components/
 ├── ModelRadar.tsx
 ├── NewsFeed.tsx
 ├── PromptPlayground.tsx
+├── VisionPlayground.tsx
 ├── EvaluationStudio.tsx
 ├── ModelRouter.tsx
 ├── OperationsConsole.tsx
@@ -296,5 +301,8 @@ Netlify publishes the `.next` output and automatically rebuilds production after
 - **Phase 4 — Evaluation Studio:** live.
 - **Phase 5 — Intelligent Model Router:** live.
 - **Phase 6 — AI Operations and Observability:** live.
+- **Phase 7 — Vision Playground:** live.
+
+The original roadmap still has incomplete work outside the renumbered release sequence: durable saved/shareable Playground experiments, fuller model research records, benchmark history and scheduled validation, and user features including watchlists, bookmarks, briefings, and alerts. Managed shared API access remains deferred until authentication, quotas, abuse controls, and cost accounting exist.
 
 AXON//RADAR remains under active development. Live-data availability depends on upstream publishers and model registries.

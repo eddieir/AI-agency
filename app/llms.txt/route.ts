@@ -13,6 +13,7 @@ export function GET(){
 - [Live AI Model Radar](${SITE_URL}/models): Recently updated open models plus frontier release signals.
 - [Model Benchmarks](${SITE_URL}/benchmarks): Sourced benchmark evidence, leaderboards, and model profiles.
 - [Multi-Model Playground](${SITE_URL}/playground): Run one prompt across real models and compare outputs, speed, tokens, and cost.
+- [Vision Playground](${SITE_URL}/playground/vision): Run one image and visual question across supported multimodal models with an ephemeral local preview.
 - [Evaluation Studio](${SITE_URL}/evaluations): Build controlled prompt datasets, run repeatable multi-model evaluations, score quality, and export reports.
 - [Evaluation Methodology](${SITE_URL}/evaluations/methodology): Practical guidance for representative datasets, controlled runs, human scoring, and limitations.
 - [Intelligent Model Router](${SITE_URL}/router): Build ordered model-routing policies, simulate decisions, enforce cost guards, execute fallbacks, and export configuration.
