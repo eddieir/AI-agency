@@ -277,6 +277,19 @@ SEO implementation improves discoverability but cannot guarantee indexing or ran
 - The durable news archive uses Netlify Blobs with automatic production context; local development degrades safely when that context is absent.
 - Evaluation definitions, completed reports, routing policies, and dispatch summaries persist in browser local storage and can be exported.
 
+## Release assurance
+
+Every product phase must pass the same release gate before it is considered complete:
+
+- functional and interaction-state QA, including disabled, validation, recovery, error, and success behavior;
+- security review of origins, methods, payloads, model allowlists, secrets, persistence, caching, provider transmission, and failure disclosure;
+- shared navigation and workspace layout checks at desktop, tablet, and phone breakpoints, including 44 px touch controls, bounded drawer scrolling, active states, and accessible menu semantics;
+- canonical metadata, structured data, internal navigation, creator attribution, sitemap, `llms.txt`, robots, RSS, and permanent-route checks where applicable;
+- TypeScript, ESLint, focused regression tests, rendered-route tests, Vinext compatibility build, and the Netlify Next.js production build;
+- post-deployment HTTP, header, API-contract, discovery, and sitemap-URL verification.
+
+The Phase 7 production audit verified the live Vision interaction state machine, model selection, prompt disabling, upload read-failure recovery, complete security-header set, negative API cases, responsive CSS contracts, and every URL emitted by all three sitemaps. Automated cloud-browser file materialization could not provide a readable test file, so no provider inference or sensitive image transmission was attempted; the application exposed the expected read-failure state without retaining the file.
+
 ## Content, evidence, and attribution
 
 AXON//RADAR displays publisher-provided excerpts and sends readers to the original publisher for the complete article. It does not republish full third-party articles.
